@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     User.findone({ email });
 
     if (!user) return 
-    res.status(400).json({ error: "User not found"});
+    res.status(400).json({ error: "User not found" });
 
     const valid = await bcrypt.compare(password, user.password);
 
