@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h2>Your Solves</h2>
+<div id="solves"></div>
+
+<script src="script.js"></script>
+<script>
+async function loadProfile() {
+  const res = await fetch("/api/solves/user", {
+    headers: { Authorization: localStorage.token }
+  });
+
+  const data = await res.json();
+
+  const div = document.getElementById("solves");
+
+  data.forEach(s => {
+    div.innerHTML += `<p>${s.time}s</p>`;
+  });
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>

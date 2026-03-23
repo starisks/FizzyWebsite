@@ -1,22 +1,33 @@
-const solve = require('../../models/Solve');
-const connectDB = require('../../lib/db');
-const { requireAuth } = require('../../lib/auth');
+const Solve = require("../../models/Solve");
+const connectDB = require("../../lib/db");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
+  try {
     await connectDB();
 
-    if (req.method === 'POST') {
-        const user = requireAuth(req, res);
-        if (!user) return;
+    if (req.method === "POST") {
+      const token = req.headers.authorization;
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const { time, cubeType} = req.body;
+      const { time, cubeType } = req.body;
 
-        await Solve.create({
-            userId: user.id,
-            time,
-            cubeType
-         });
-         return res.json({ message: "Saved"});
+      const solve = await Solve.create({
+        userId: decoded.id,
+        time,
+        cubeType
+      });
+
+      return res.json(solve);
     }
-    res.status(405).end();
-}
+
+    if (req.method === "GET") {
+      const solves = await Solve.find().sort({ time: 1 }).limit(50);
+      return res.json(solves);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
