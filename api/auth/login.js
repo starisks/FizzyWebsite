@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await
-    User.findone({ email });
+    User.findOne({ email });
 
     if (!user) return 
     res.status(400).json({ error: "User not found" });
