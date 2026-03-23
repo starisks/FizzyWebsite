@@ -27,3 +27,5 @@ async function login() {
     alert("Server returned invalid response (not JSON)");
   }
 }
+
+// alert("This site is in early development. Expect bugs and downtime. If you find any issues, please report them to me on Discord: Fizzy#0001");
