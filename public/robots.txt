@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fizzy-website-sigma.vercel.app//sitemap.xml
+Sitemap: https://fizzy-website-sigma.vercel.app/public/sitemap.xml
