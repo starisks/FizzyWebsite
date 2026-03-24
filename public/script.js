@@ -116,4 +116,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const s = document.getElementById("scramble");
   if (s) s.innerText = generateScramble();
 });
+async function loadLeaderboard() {
+  const res = await fetch("/api/solves");
+  const data = await res.json();
+
+  const container = document.getElementById("leaderboard");
+  container.innerHTML = "";
+
+  data.forEach((s, i) => {
+    container.innerHTML += `<p>#${i + 1} - ${s.time}s</p>`;
+  });
+}
+
+// initial load
+loadLeaderboard();
+
+// "realtime" updates every 5 seconds
+setInterval(loadLeaderboard, 5000);
 // alert("This site is in early development. Expect bugs and downtime. If you find any issues, please report them to me on Discord: Fizzy#0001");
