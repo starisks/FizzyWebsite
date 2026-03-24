@@ -1,11 +1,19 @@
-const Solve = require('../../models/Solve');
-const connectDB = require('../../lib/db');
+const connectDB = require("../../lib/db");
+const Solve = require("../../models/Solve");
 
 module.exports = async (req, res) => {
-    await connectDB();
+  await connectDB();
 
-    const solves =await
-    Solve.find().sort({ time: 1 }).limit(10);
+  const leaderboard = await Solve.aggregate([
+    {
+      $group: {
+        _id: "$userId",
+        bestTime: { $min: "$time" }
+      }
+    },
+    { $sort: { bestTime: 1 } },
+    { $limit: 50 }
+  ]);
 
-    res.json(solves);
+  res.json(leaderboard);
 };

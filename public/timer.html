@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="styles.css">
-  <title>Cube Timer – Accurate Speedcubing Timer | CubingHub</title>
-<meta name="description" content="Use a precise and fast cube timer with inspection mode, millisecond accuracy, and solve tracking. Perfect for speedcubers.">
-<link rel="canonical" href="https://yourdomain.com/timer.html">
+  <title>Rubik’s Cube Timer | WCA Speedcubing Timer</title>
+  <meta name="description" content="Use a professional WCA-style Rubik’s Cube timer with inspection, Ao5, Ao12, charts, and solve tracking." />
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
+
 <body>
 
-<div class="timer-container">
+<h1>WCA Timer</h1>
+<h2 id="timer">0.000</h2>
 
-  <div id="scramble"></div>
+<p id="ao5"></p>
+<p id="ao12"></p>
 
-  <div id="timer">0.000</div>
-
-  <div id="stats">
-    <p id="ao5">Ao5: -</p>
-    <p id="ao12">Ao12: -</p>
-  </div>
-
-</div>
+<canvas id="chart"></canvas>
+<div id="cube-container"></div>
 
 <script src="script.js"></script>
+<script src="timer.js"></script>
+
 </body>
 </html>

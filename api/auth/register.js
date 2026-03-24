@@ -1,18 +1,20 @@
-const bcrypt = require('bcryptjs');
-const User = require('../../models/User');
-const connectDB = require('../../lib/db');
+const connectDB = require("../../lib/db");
+const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
 
 module.exports = async (req, res) => {
-    await connectDB();
+  await connectDB();
 
-    if (req.method !== 'POST') return
-    res.status(405).end();
-
+  if (req.method === "POST") {
     const { email, password } = req.body;
 
-    const hash = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 10);
 
-    await User.create({ email, password: hash });
+    const user = await User.create({
+      email,
+      password: hashed
+    });
 
-    res.json({ message: "Registered"});
-}
+    res.json(user);
+  }
+};
