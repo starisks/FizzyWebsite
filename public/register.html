@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Register | Cube Trainer</title>
+  <meta name="description" content="Create a Cube Trainer account to save your Rubik's Cube solves, track progress, and join the leaderboard.">
   <meta name="robots" content="noindex, follow">
 
+  <link rel="canonical" href="https://fizzy-website-sigma.vercel.app/register.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
      crossorigin="anonymous"></script>
-
-  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -20,18 +25,29 @@
   <div>
     <a href="/">Home</a>
     <a href="/timer.html">Timer</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/login.html">Login</a>
   </div>
 </nav>
 
 <main class="container">
-  <div class="card">
-    <h2>Register</h2>
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="register()">Register</button>
-  </div>
+
+  <section class="card">
+    <h2>Create Account</h2>
+
+    <form onsubmit="register(event)">
+      <input id="email" type="email" placeholder="Email" required>
+      <input id="password" type="password" placeholder="Password" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p id="message"></p>
+  </section>
+
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>

@@ -5,16 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Rubik's Cube Timer | WCA Trainer Ao5 Ao12</title>
-  <meta name="description" content="Use a professional Rubik's Cube timer with WCA inspection, Ao5 and Ao12 averages, scramble generator, leaderboard, and 3D trainer.">
+
+  <meta name="description" content="Use a professional Rubik's Cube timer with WCA inspection, Ao5 and Ao12 averages, scramble generator, leaderboard, and 3D cube trainer.">
+  <meta name="keywords" content="rubiks cube timer, wca timer, ao5, ao12, speedcubing timer, cube trainer">
   <meta name="robots" content="index, follow">
 
+  <link rel="canonical" href="https://fizzy-website-sigma.vercel.app/timer.html">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <!-- AdSense (ONLY ONCE) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
      crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="styles.css">
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cube Trainer Timer",
+    "url": "https://fizzy-website-sigma.vercel.app/timer.html",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "All"
+  }
+  </script>
 </head>
 
 <body>
@@ -23,6 +42,7 @@
   <h1>Cube Trainer</h1>
   <div>
     <a href="/">Home</a>
+    <a href="/timer.html">Timer</a>
     <a href="/blog.html">Blog</a>
     <a href="/login.html">Login</a>
     <a href="/register.html">Register</a>
@@ -31,26 +51,32 @@
 
 <main class="container">
 
+  <!-- Timer -->
   <section class="card">
     <h2 id="scramble"></h2>
     <h1 id="timer">0.000</h1>
-    <p>Press SPACE to start/stop</p>
+    <p>Press SPACE to start/stop (WCA inspection supported)</p>
   </section>
 
+  <!-- Averages -->
   <section class="card">
     <h3 id="ao5">Ao5: N/A</h3>
     <h3 id="ao12">Ao12: N/A</h3>
   </section>
 
+  <!-- Chart -->
   <section class="card">
+    <h2>Performance Chart</h2>
     <canvas id="chart"></canvas>
   </section>
 
+  <!-- Leaderboard -->
   <section class="card">
     <h2>Leaderboard</h2>
     <div id="leaderboard"></div>
   </section>
 
+  <!-- 3D Cube -->
   <section class="card">
     <h2>3D Cube Trainer</h2>
     <div id="cube-container"></div>
@@ -59,5 +85,6 @@
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>
