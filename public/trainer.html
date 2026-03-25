@@ -1,15 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>3D Cube Trainer | Interactive Rubik's Cube Visualization</title>
+
+  <meta name="description" content="Practice with a 3D Rubik's Cube trainer using interactive visualization powered by Three.js. Improve your cubing skills with realistic cube simulation.">
+  <meta name="keywords" content="3d rubik cube, cube trainer, three.js cube, cubing practice, rubiks cube simulator">
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://fizzy-website-sigma.vercel.app/trainer.html">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
      crossorigin="anonymous"></script>
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "3D Cube Trainer",
+    "url": "https://fizzy-website-sigma.vercel.app/trainer.html",
+    "applicationCategory": "GameApplication"
+  }
+  </script>
 </head>
+
 <body>
 
-<h2>3D Cube Trainer</h2>
-<div id="cube-container"></div>
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<nav class="nav">
+  <h1>Cube Trainer</h1>
+  <div>
+    <a href="/">Home</a>
+    <a href="/timer.html">Timer</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/login.html">Login</a>
+    <a href="/register.html">Register</a>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section class="card">
+    <h2>3D Cube Trainer</h2>
+    <p>Interact with a virtual Rubik's Cube using a 3D environment.</p>
+    <div id="cube-container"></div>
+  </section>
+
+</main>
+
 <script src="trainer.js"></script>
 
 </body>
