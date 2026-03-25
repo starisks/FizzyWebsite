@@ -261,4 +261,4 @@ setInterval(loadChart, 5000);
 // =====================
 // This website is mostly frontend, but we export some functions for testing purposes,
 // even though they aren't used directly in the HTML., this website is in early stages / beta
-// expect some bugs and missing features. If you want to contribute, check out the GitHub repo!
+// expect some bugs and missing features. If you want to contribute, check out the GitHub repo!l

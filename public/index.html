@@ -1,71 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO -->
-  <title>Fizzy Cubing | Rubik’s Cube Timer, Trainer & Leaderboard</title>
-  <meta name="description" content="Fizzy Cubing is a professional Rubik’s Cube platform with WCA timer, solve tracking, 3D cube trainer, charts, and global leaderboard." />
-  <meta name="keywords" content="rubik cube timer, cubing timer, wca timer, speedcubing trainer, pll oll trainer, cube leaderboard" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://yourdomain.com/" />
+  <title>Cube Trainer | Rubik's Cube Timer, Practice & Leaderboard</title>
+  <meta name="description" content="Train Rubik's Cube speed solving with a WCA-style timer, Ao5/Ao12 averages, leaderboard, blog, and 3D cube trainer.">
+  <meta name="keywords" content="rubiks cube timer, cube trainer, speedcubing, WCA timer, ao5, ao12, cubing practice">
+  <meta name="robots" content="index, follow">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Fizzy Cubing" />
-  <meta property="og:description" content="WCA timer, 3D trainer, leaderboard, and analytics for speedcubers." />
-  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://your-domain.com/">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
+     crossorigin="anonymous"></script>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fizzy Cubing",
-    "url": "https://yourdomain.com"
-  }
-  </script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header class="navbar">
-  <h1>Fizzy Cubing</h1>
-  <nav>
+<nav class="nav">
+  <h1>Cube Trainer</h1>
+  <div>
+    <a href="/">Home</a>
     <a href="/timer.html">Timer</a>
+    <a href="/blog.html">Blog</a>
     <a href="/login.html">Login</a>
     <a href="/register.html">Register</a>
-  </nav>
-</header>
+  </div>
+</nav>
 
-<main>
-  <section>
-    <h2>Professional Speedcubing Platform</h2>
-    <p>Train with WCA timer, analyze solves, view leaderboards, and improve faster.</p>
+<main class="container">
+
+  <section class="card hero">
+    <h1>Rubik's Cube Trainer</h1>
+    <p>Practice speedcubing with real-time timer, averages, leaderboard, and 3D cube visualization.</p>
+    <a href="/timer.html"><button>Start Timer</button></a>
   </section>
 
-  <section id="blog">
-    <h2>Blog</h2>
+  <section class="card">
+    <h2>Features</h2>
+    <ul>
+      <li>WCA-style timer with inspection</li>
+      <li>Ao5 and Ao12 tracking</li>
+      <li>Leaderboard system</li>
+      <li>3D cube trainer</li>
+      <li>Blog with updates</li>
+    </ul>
   </section>
+
 </main>
 
-<!-- Cookie Popup -->
-<div id="cookiePopup" class="cookie hidden">
-  <div class="cookie-box">
-    <h3>Cookies</h3>
-    <p>We use cookies to personalize your experience.</p>
-    <button onclick="acceptCookies()">Accept</button>
-    <button onclick="declineCookies()">Decline</button>
+<!-- CMP -->
+<div id="cmpFooter" class="cmp-footer">
+  <p>We use cookies for analytics and personalization.</p>
+  <div class="cmp-buttons">
+    <button onclick="acceptAllCookies()">Accept</button>
+    <button onclick="rejectAllCookies()">Reject</button>
+    <button onclick="openPreferences()">Manage</button>
+  </div>
+</div>
+
+<div id="cmpModal" class="cmp-modal hidden">
+  <div class="cmp-modal-content">
+    <h2>Cookie Preferences</h2>
+    <label><input type="checkbox" id="analyticsCookies"> Analytics</label>
+    <label><input type="checkbox" id="personalizationCookies"> Personalization</label>
+    <div class="cmp-buttons">
+      <button onclick="savePreferences()">Save</button>
+      <button onclick="closePreferences()">Cancel</button>
+    </div>
   </div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>

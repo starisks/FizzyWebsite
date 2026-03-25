@@ -1,27 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Rubik’s Cube Timer | WCA Speedcubing Timer</title>
-  <meta name="description" content="Use a professional WCA-style Rubik’s Cube timer with inspection, Ao5, Ao12, charts, and solve tracking." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rubik's Cube Timer | WCA Trainer Ao5 Ao12</title>
+  <meta name="description" content="Use a professional Rubik's Cube timer with WCA inspection, Ao5 and Ao12 averages, scramble generator, leaderboard, and 3D trainer.">
+  <meta name="robots" content="index, follow">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
+     crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
 
-<h1>WCA Timer</h1>
-<h2 id="timer">0.000</h2>
+<nav class="nav">
+  <h1>Cube Trainer</h1>
+  <div>
+    <a href="/">Home</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/login.html">Login</a>
+    <a href="/register.html">Register</a>
+  </div>
+</nav>
 
-<p id="ao5"></p>
-<p id="ao12"></p>
+<main class="container">
 
-<canvas id="chart"></canvas>
-<div id="cube-container"></div>
+  <section class="card">
+    <h2 id="scramble"></h2>
+    <h1 id="timer">0.000</h1>
+    <p>Press SPACE to start/stop</p>
+  </section>
+
+  <section class="card">
+    <h3 id="ao5">Ao5: N/A</h3>
+    <h3 id="ao12">Ao12: N/A</h3>
+  </section>
+
+  <section class="card">
+    <canvas id="chart"></canvas>
+  </section>
+
+  <section class="card">
+    <h2>Leaderboard</h2>
+    <div id="leaderboard"></div>
+  </section>
+
+  <section class="card">
+    <h2>3D Cube Trainer</h2>
+    <div id="cube-container"></div>
+  </section>
+
+</main>
 
 <script src="script.js"></script>
-<script src="timer.js"></script>
-
 </body>
 </html>
