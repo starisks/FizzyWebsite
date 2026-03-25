@@ -16,6 +16,19 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+
+// DEFAULT = denied
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied'
+});
+</script>
+
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8550924801420852"
      crossorigin="anonymous"></script>
@@ -47,6 +60,51 @@
 <script>
 requireAuth();
 </script>
+<!-- CMP BANNER -->
+<div id="cmpBanner" class="cmp hidden">
+  <p>We use cookies to improve your experience.</p>
 
+  <div class="cmp-buttons">
+    <button onclick="acceptAllCookies()">Accept All</button>
+    <button onclick="rejectAllCookies()">Reject All</button>
+    <button onclick="openPreferences()">Manage</button>
+  </div>
+</div>
+
+<!-- CMP MODAL -->
+<div id="cmpModal" class="cmp-modal hidden">
+  <div class="cmp-content">
+    <h2>Cookie Preferences</h2>
+
+    <label>
+      <input type="checkbox" checked disabled>
+      Necessary (always enabled)
+    </label>
+
+    <label>
+      <input type="checkbox" id="analyticsCookies">
+      Analytics Cookies
+    </label>
+
+    <label>
+      <input type="checkbox" id="personalizationCookies">
+      Personalization Cookies
+    </label>
+
+    <div class="cmp-buttons">
+      <button onclick="savePreferences()">Save</button>
+      <button onclick="closePreferences()">Cancel</button>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <button onclick="openPreferences()">Cookie Settings</button>
+  </div>
+
+  <p>© 2026 Cube Trainer</p>
+</footer>
 </body>
 </html>
