@@ -1,40 +1,65 @@
-
 // =====================
 // GLOBAL STATE
 // =====================
 let startTime = null;
 let running = false;
 let times = [];
-let chart;
+let chart = null;
 
 // =====================
 // AUTH (LOGIN)
 // =====================
-async function login() {
-  const email = document.getElementById("email")?.value;
-  const password = document.getElementById("password")?.value;
+async function login(e) {
+  e?.preventDefault();
 
-  const res = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  });
-
-  const text = await res.text();
+  const email = document.getElementById("loginEmail")?.value;
+  const password = document.getElementById("loginPassword")?.value;
 
   try {
-    const data = JSON.parse(text);
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
 
-    if (!res.ok) {
-      alert(data.error || "Login failed");
-      return;
-    }
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
 
     localStorage.setItem("token", data.token);
     alert("Logged in!");
-  } catch {
-    console.error("NOT JSON RESPONSE:", text);
-    alert("Server error");
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Login failed");
+  }
+}
+
+// =====================
+// AUTH (REGISTER)
+// =====================
+async function register(e) {
+  e?.preventDefault();
+
+  const email = document.getElementById("regEmail")?.value;
+  const password = document.getElementById("regPassword")?.value;
+
+  try {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
+
+    alert("Registered! Now login.");
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Register failed");
   }
 }
 
@@ -44,6 +69,7 @@ async function login() {
 function generateScramble() {
   const moves = ["R", "L", "U", "D", "F", "B"];
   const mods = ["", "'", "2"];
+
   let scramble = "";
 
   for (let i = 0; i < 20; i++) {
@@ -61,6 +87,8 @@ function generateScramble() {
 async function saveSolve(time) {
   const token = localStorage.getItem("token");
 
+  if (!token) return; // don't spam API if not logged in
+
   await fetch("/api/solves", {
     method: "POST",
     headers: {
@@ -72,63 +100,62 @@ async function saveSolve(time) {
 }
 
 // =====================
-// AVERAGES (AO5 / AO12)
+// AVERAGES
 // =====================
 function calculateAverage(arr) {
   if (arr.length < 5) return "N/A";
 
   const sorted = [...arr].sort((a, b) => a - b);
-  sorted.pop();
   sorted.shift();
+  sorted.pop();
 
   return (sorted.reduce((a, b) => a + b, 0) / sorted.length).toFixed(3);
 }
 
 function updateStats() {
-  document.getElementById("ao5").innerText =
-    "Ao5: " + calculateAverage(times.slice(-5));
+  const ao5 = document.getElementById("ao5");
+  const ao12 = document.getElementById("ao12");
 
-  document.getElementById("ao12").innerText =
-    "Ao12: " + calculateAverage(times.slice(-12));
+  if (ao5) ao5.innerText = "Ao5: " + calculateAverage(times.slice(-5));
+  if (ao12) ao12.innerText = "Ao12: " + calculateAverage(times.slice(-12));
 }
 
 // =====================
-// TIMER (WCA STYLE)
+// TIMER
 // =====================
 document.addEventListener("keydown", async (e) => {
-  if (e.code === "Space") {
-    if (!running) {
-      startTime = Date.now();
-      running = true;
-    } else {
-      const time = (Date.now() - startTime) / 1000;
-      running = false;
+  if (e.code !== "Space") return;
 
-      times.push(time);
+  if (!running) {
+    startTime = Date.now();
+    running = true;
+  } else {
+    const time = (Date.now() - startTime) / 1000;
+    running = false;
 
-      const timerEl = document.getElementById("timer");
-      if (timerEl) timerEl.innerText = time.toFixed(3);
+    times.push(time);
 
-      const scrambleEl = document.getElementById("scramble");
-      if (scrambleEl) scrambleEl.innerText = generateScramble();
+    const timerEl = document.getElementById("timer");
+    if (timerEl) timerEl.innerText = time.toFixed(3);
 
-      updateStats();
-      await saveSolve(time);
+    const scrambleEl = document.getElementById("scramble");
+    if (scrambleEl) scrambleEl.innerText = generateScramble();
 
-      updateChart();
-    }
+    updateStats();
+    await saveSolve(time);
+    updateChart();
   }
 });
 
 // =====================
-// BLOG LOADER
+// BLOG
 // =====================
 async function loadBlog() {
-  const res = await fetch("/api/blog");
-  const posts = await res.json();
-
   const el = document.getElementById("blog");
   if (!el) return;
+
+  const res = await fetch("/api/blog");
+  const posts = await res.json();
 
   el.innerHTML = posts.map(p => `
     <article class="card">
@@ -142,11 +169,11 @@ async function loadBlog() {
 // LEADERBOARD
 // =====================
 async function loadLeaderboard() {
-  const res = await fetch("/api/solves/leaderboard");
-  const data = await res.json();
-
   const el = document.getElementById("leaderboard");
   if (!el) return;
+
+  const res = await fetch("/api/solves/leaderboard");
+  const data = await res.json();
 
   el.innerHTML = data.map((u, i) => `
     <div class="card">
@@ -157,39 +184,20 @@ async function loadLeaderboard() {
 }
 
 // =====================
-// COOKIE POPUP
-// =====================
-function acceptCookies() {
-  localStorage.setItem("cookies", "yes");
-  document.getElementById("cookiePopup")?.classList.add("hidden");
-}
-
-function declineCookies() {
-  localStorage.setItem("cookies", "no");
-  document.getElementById("cookiePopup")?.classList.add("hidden");
-}
-
-window.onload = () => {
-  if (!localStorage.getItem("cookies")) {
-    document.getElementById("cookiePopup")?.classList.remove("hidden");
-  }
-};
-
-// =====================
-// CHART (Chart.js)
+// CHART
 // =====================
 async function loadChart() {
+  const canvas = document.getElementById("chart");
+  if (!canvas) return;
+
   const res = await fetch("/api/solves");
   const solves = await res.json();
 
   const data = solves.map(s => s.time).slice(-20);
 
-  const ctx = document.getElementById("chart");
-  if (!ctx) return;
-
   if (chart) chart.destroy();
 
-  chart = new Chart(ctx, {
+  chart = new Chart(canvas, {
     type: "line",
     data: {
       labels: data.map((_, i) => i + 1),
@@ -206,14 +214,14 @@ function updateChart() {
 }
 
 // =====================
-// 3D CUBE (Three.js)
+// 3D CUBE
 // =====================
 function initCube() {
   const container = document.getElementById("cube-container");
   if (!container) return;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, 400/400, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(400, 400);
@@ -239,7 +247,20 @@ function initCube() {
 }
 
 // =====================
-// INITIAL LOAD
+// COOKIE
+// =====================
+function acceptCookies() {
+  localStorage.setItem("cookies", "yes");
+  document.getElementById("cookiePopup")?.classList.add("hidden");
+}
+
+function declineCookies() {
+  localStorage.setItem("cookies", "no");
+  document.getElementById("cookiePopup")?.classList.add("hidden");
+}
+
+// =====================
+// INIT
 // =====================
 document.addEventListener("DOMContentLoaded", () => {
   loadBlog();
@@ -249,16 +270,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const scrambleEl = document.getElementById("scramble");
   if (scrambleEl) scrambleEl.innerText = generateScramble();
+
+  if (!localStorage.getItem("cookies")) {
+    document.getElementById("cookiePopup")?.classList.remove("hidden");
+  }
 });
 
-// refresh periodically
-setInterval(loadBlog, 5000);
-setInterval(loadLeaderboard, 5000);
-setInterval(loadChart, 5000);
-
 // =====================
-// EXPORTS (for testing)
+// INTERVALS
 // =====================
-// This website is mostly frontend, but we export some functions for testing purposes,
-// even though they aren't used directly in the HTML., this website is in early stages / beta
-// expect some bugs and missing features. If you want to contribute, check out the GitHub repo!l
+setInterval(loadBlog, 10000);
+setInterval(loadLeaderboard, 10000);
+setInterval(loadChart, 10000);
