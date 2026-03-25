@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Login | Cube Trainer</title>
+  <meta name="description" content="Login to Cube Trainer to save your solves and track progress.">
   <meta name="robots" content="noindex, follow">
 
   <!-- AdSense -->
@@ -29,9 +30,16 @@
 <main class="container">
   <div class="card">
     <h2>Login</h2>
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+
+    <!-- FORM (IMPORTANT FIX) -->
+    <form onsubmit="login(event)">
+      <input id="loginEmail" type="email" placeholder="Email" required>
+      <input id="loginPassword" type="password" placeholder="Password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p id="loginMsg"></p>
   </div>
 </main>
 

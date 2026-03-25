@@ -27,7 +27,9 @@ async function login(e) {
     if (!res.ok) throw new Error(data.error);
 
     localStorage.setItem("token", data.token);
-    alert("Logged in!");
+
+    // ✅ redirect AFTER login
+    window.location.href = "/timer.html";
 
   } catch (err) {
     console.error(err);
@@ -56,11 +58,30 @@ async function register(e) {
     if (!res.ok) throw new Error(data.error);
 
     alert("Registered! Now login.");
+    window.location.href = "/login.html";
 
   } catch (err) {
     console.error(err);
     alert(err.message || "Register failed");
   }
+}
+
+// =====================
+// AUTH HELPERS
+// =====================
+function isLoggedIn() {
+  return !!localStorage.getItem("token");
+}
+
+function requireAuth() {
+  if (!isLoggedIn()) {
+    window.location.href = "/login.html";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "/";
 }
 
 // =====================
@@ -70,15 +91,11 @@ function generateScramble() {
   const moves = ["R", "L", "U", "D", "F", "B"];
   const mods = ["", "'", "2"];
 
-  let scramble = "";
-
-  for (let i = 0; i < 20; i++) {
+  return Array.from({ length: 20 }, () => {
     const move = moves[Math.floor(Math.random() * moves.length)];
     const mod = mods[Math.floor(Math.random() * mods.length)];
-    scramble += move + mod + " ";
-  }
-
-  return scramble;
+    return move + mod;
+  }).join(" ");
 }
 
 // =====================
@@ -86,8 +103,7 @@ function generateScramble() {
 // =====================
 async function saveSolve(time) {
   const token = localStorage.getItem("token");
-
-  if (!token) return; // don't spam API if not logged in
+  if (!token) return;
 
   await fetch("/api/solves", {
     method: "POST",
@@ -121,15 +137,50 @@ function updateStats() {
 }
 
 // =====================
-// TIMER
+// WCA TIMER
 // =====================
-document.addEventListener("keydown", async (e) => {
+let inspection = false;
+let inspectionTime = 15;
+let inspectionInterval;
+
+document.addEventListener("keydown", (e) => {
   if (e.code !== "Space") return;
 
-  if (!running) {
+  if (!running && !inspection) {
+    inspection = true;
+    inspectionTime = 15;
+
+    const timerEl = document.getElementById("timer");
+
+    inspectionInterval = setInterval(() => {
+      inspectionTime--;
+
+      if (timerEl) timerEl.innerText = inspectionTime;
+
+      if (inspectionTime === 0) timerEl.innerText = "+2";
+
+      if (inspectionTime < -2) {
+        timerEl.innerText = "DNF";
+        clearInterval(inspectionInterval);
+        inspection = false;
+      }
+    }, 1000);
+  }
+});
+
+document.addEventListener("keyup", async (e) => {
+  if (e.code !== "Space") return;
+
+  if (inspection) {
+    clearInterval(inspectionInterval);
+    inspection = false;
+
     startTime = Date.now();
     running = true;
-  } else {
+    return;
+  }
+
+  if (running) {
     const time = (Date.now() - startTime) / 1000;
     running = false;
 
@@ -273,6 +324,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!localStorage.getItem("cookies")) {
     document.getElementById("cookiePopup")?.classList.remove("hidden");
+  }
+
+  // 🔥 AUTO PROTECT PAGES
+  if (
+    window.location.pathname.includes("timer") ||
+    window.location.pathname.includes("profile") ||
+    window.location.pathname.includes("stats")
+  ) {
+    requireAuth();
   }
 });
 

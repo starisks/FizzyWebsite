@@ -1,5 +1,7 @@
 const connectDB = require("../../lib/db");
-const Solve = require("../../models/Solve");
+const mongoose = require("mongoose");
+
+const Solve = mongoose.models.Solve;
 
 module.exports = async (req, res) => {
   await connectDB();
@@ -12,7 +14,7 @@ module.exports = async (req, res) => {
       }
     },
     { $sort: { bestTime: 1 } },
-    { $limit: 50 }
+    { $limit: 10 }
   ]);
 
   res.json(leaderboard);

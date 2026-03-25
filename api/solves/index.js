@@ -1,31 +1,37 @@
 const connectDB = require("../../lib/db");
-const Solve = require("../../models/Solve");
-const jwt = require("jsonwebtoken");
+const auth = require("../../lib/auth");
+const mongoose = require("mongoose");
+
+const SolveSchema = new mongoose.Schema({
+  userId: String,
+  time: Number,
+  cubeType: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Solve = mongoose.models.Solve || mongoose.model("Solve", SolveSchema);
 
 module.exports = async (req, res) => {
   await connectDB();
 
+  const user = auth(req);
+  if (!user) return res.status(401).json({ error: "Unauthorized" });
+
   if (req.method === "POST") {
-    try {
-      const token = req.headers.authorization?.split(" ")[1];
-      const user = jwt.verify(token, process.env.JWT_SECRET);
+    const { time, cubeType } = req.body;
 
-      const { time, cubeType } = req.body;
+    await Solve.create({
+      userId: user.id,
+      time,
+      cubeType
+    });
 
-      const solve = await Solve.create({
-        userId: user.id,
-        time,
-        cubeType
-      });
-
-      return res.json(solve);
-    } catch {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+    return res.json({ success: true });
   }
 
   if (req.method === "GET") {
-    const solves = await Solve.find().sort({ createdAt: -1 });
-    res.json(solves);
+    const solves = await Solve.find({ userId: user.id }).sort({ createdAt: -1 });
+
+    return res.json(solves);
   }
 };
