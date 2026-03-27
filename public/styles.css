@@ -91,3 +91,36 @@ button {
 .hidden {
   display: none;
 }
+:root {
+  --bg: #020617;
+  --glass: rgba(255,255,255,0.07);
+  --accent: #38bdf8;
+  --text: #e2e8f0;
+}
+
+body {
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  color: var(--text);
+  font-family: system-ui;
+}
+
+.timer-container {
+  backdrop-filter: blur(20px);
+  background: var(--glass);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transition: 0.3s;
+}
+
+.timer-container:hover {
+  transform: scale(1.02);
+}
+
+button {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}

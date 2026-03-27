@@ -421,3 +421,4 @@ document.addEventListener("DOMContentLoaded",()=>{
 setInterval(loadLeaderboard,10000);
 setInterval(loadChart,10000);
 setInterval(loadBlog,15000);
+
